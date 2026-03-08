@@ -46,7 +46,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
     /**
      * URL Generator
      */
-    private UrlGenerator $url;
+    private ?UrlGenerator $url = null;
 
     /**
      * Config Repository
@@ -67,7 +67,6 @@ abstract class FileRepository implements Countable, RepositoryInterface
     {
         $this->app = $app;
         $this->path = $path;
-        $this->url = $app['url'];
         $this->config = $app['config'];
         $this->files = $app['files'];
     }
@@ -401,7 +400,9 @@ abstract class FileRepository implements Countable, RepositoryInterface
 
         $baseUrl = str_replace(public_path().DIRECTORY_SEPARATOR, '', $this->getAssetsPath());
 
-        $url = $this->url->asset($baseUrl."/{$name}/".$url);
+        $urlGenerator = $this->url ??= $this->app['url'];
+
+        $url = $urlGenerator->asset($baseUrl."/{$name}/".$url);
 
         return str_replace(['http://', 'https://'], '//', $url);
     }
