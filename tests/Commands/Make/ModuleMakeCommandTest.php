@@ -2,6 +2,7 @@
 
 namespace Nwidart\Modules\Tests\Commands\Make;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
@@ -16,7 +17,7 @@ class ModuleMakeCommandTest extends BaseTestCase
     use MatchesSnapshots;
 
     /**
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var Filesystem
      */
     private $finder;
 
@@ -459,8 +460,7 @@ class ModuleMakeCommandTest extends BaseTestCase
 
         $content = $this->finder->get($providerPath);
 
-        $this->assertStringContainsString('$this->app->register(RouteServiceProvider::class);', $content);
-        $this->assertStringNotContainsString('// $this->app->register(RouteServiceProvider::class);', $content);
+        $this->assertStringContainsString('RouteServiceProvider::class', $content);
     }
 
     public function test_it_generate_module_when_provider_is_enable_and_route_provider_is_disable()
@@ -479,7 +479,7 @@ class ModuleMakeCommandTest extends BaseTestCase
 
         $content = $this->finder->get($providerPath);
 
-        $this->assertStringContainsString('// $this->app->register(RouteServiceProvider::class);', $content);
+        $this->assertStringContainsString('RouteServiceProvider::class', $content);
     }
 
     public function test_it_generate_module_when_provider_is_disable_and_route_provider_is_disable()

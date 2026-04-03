@@ -9,6 +9,7 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
+use Laravel\Lumen\Application;
 use Nwidart\Modules\Constants\ModuleEvent;
 use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Exceptions\InvalidAssetPath;
@@ -24,7 +25,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
     /**
      * Application instance.
      *
-     * @var \Illuminate\Contracts\Foundation\Application|\Laravel\Lumen\Application
+     * @var \Illuminate\Contracts\Foundation\Application|Application
      */
     protected $app;
 
@@ -363,7 +364,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
     /**
      * Get module used for cli session.
      *
-     * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
+     * @throws ModuleNotFoundException
      */
     public function getUsedNow(): string
     {
@@ -426,7 +427,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
     /**
      * Enabling a specific module.
      *
-     * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
+     * @throws ModuleNotFoundException
      */
     public function enable(string $name)
     {
@@ -436,7 +437,7 @@ abstract class FileRepository implements Countable, RepositoryInterface
     /**
      * Disabling a specific module.
      *
-     * @throws \Nwidart\Modules\Exceptions\ModuleNotFoundException
+     * @throws ModuleNotFoundException
      */
     public function disable(string $name)
     {

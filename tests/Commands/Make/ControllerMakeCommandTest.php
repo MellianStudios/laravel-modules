@@ -2,6 +2,7 @@
 
 namespace Nwidart\Modules\Tests\Commands\Make;
 
+use Illuminate\Filesystem\Filesystem;
 use Nwidart\Modules\Contracts\RepositoryInterface;
 use Nwidart\Modules\Tests\BaseTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -11,7 +12,7 @@ class ControllerMakeCommandTest extends BaseTestCase
     use MatchesSnapshots;
 
     /**
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var Filesystem
      */
     private $finder;
 
@@ -105,6 +106,20 @@ class ControllerMakeCommandTest extends BaseTestCase
             'controller' => 'MyController',
             'module' => 'Blog',
             '--invokable' => true,
+        ]);
+
+        $file = $this->finder->get($this->modulePath.'/Http/Controllers/MyController.php');
+
+        $this->assertMatchesSnapshot($file);
+        $this->assertSame(0, $code);
+    }
+
+    public function test_it_generates_an_inertia_controller()
+    {
+        $code = $this->artisan('module:make-controller', [
+            'controller' => 'MyController',
+            'module' => 'Blog',
+            '--inertia' => true,
         ]);
 
         $file = $this->finder->get($this->modulePath.'/Http/Controllers/MyController.php');
